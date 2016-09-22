@@ -33,7 +33,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,7 +55,11 @@ public class DraggableGridFragment extends Fragment {
     private List<ChannelBean> list;
     private List<ChannelUserBean> list2;
     private List<ChannelBean> listopen;
+    private List<String> setting;
     private BAdapter badapter;
+    private TextView tv_edit,tv_notice;
+    private Boolean clickAble=false;
+
 
     boolean isMove = false;
 
@@ -73,16 +76,24 @@ public class DraggableGridFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        tv_edit= (TextView) view.findViewById(R.id.tv_edit);
+        tv_notice= (TextView) view.findViewById(R.id.tv_notice);
+
 
 
         list=new ArrayList<>();
         list2=new ArrayList<>();
         listopen=new ArrayList<>();
+        setting=new ArrayList<>();
+
         if (MyApplication.sDb.query(ChannelBean.class).size()>0) {
             list.addAll(MyApplication.sDb.query(ChannelBean.class));
             //MyApplication.sDb.deleteAll(ChannelBean.class);
 
         }
+
+
+
         Log.i("listopen",list.toString());
         Log.i("listopen",MyApplication.sDb.query(ChannelBean.class).size()+"");
 
@@ -134,7 +145,7 @@ public class DraggableGridFragment extends Fragment {
 
         //adapter
 
-        final DraggableGridAdapter myItemAdapter = new DraggableGridAdapter(list);
+        final DraggableGridAdapter myItemAdapter = new DraggableGridAdapter(list,setting);
         badapter=new BAdapter(getContext(),list2);
         badapter.SusClickListener(OnSusClick());
 
@@ -142,6 +153,7 @@ public class DraggableGridFragment extends Fragment {
 
         mWrappedAdapter = mRecyclerViewDragDropManager.createWrappedAdapter(myItemAdapter);      // wrap for dragging
         myItemAdapter.SusTopClickListener(OnSusTopClick());
+        myItemAdapter.SusTopLongClickListener(OnSusLongClick());
 
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
        // mWrappedAdapter.notifyDataSetChanged();
@@ -167,9 +179,35 @@ public class DraggableGridFragment extends Fragment {
 
 
         //define bottom recyclerview
+        initEditBtn();
+
+
+    }
 
 
 
+    private void initEditBtn() {
+        tv_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tv_edit.getText().equals("Done")){
+                    tv_edit.setText("Edit");
+                    tv_notice.setVisibility(View.INVISIBLE);
+                    clickAble=false;
+                    if (setting.size()>0){
+                        setting.remove(0);}
+                    mAdapter.notifyDataSetChanged();
+
+                }else {
+                    tv_edit.setText("Done");
+                    clickAble=true;
+                    tv_notice.setVisibility(View.VISIBLE);
+                    setting.add(0,"edit");
+                    mAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -200,12 +238,26 @@ public class DraggableGridFragment extends Fragment {
 
         super.onDestroy();
     }
+    private SusTopLongClickListener OnSusLongClick() {
+        return new SusTopLongClickListener() {
+            @Override
+            public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
+
+                if (tv_edit.getText().equals("Edit")){
+                tv_edit.setText("Done");
+                clickAble=true;
+                tv_notice.setVisibility(View.VISIBLE);
+                setting.add(0,"edit");
+                mAdapter.notifyDataSetChanged();}
+            }
+        };
+    }
 
     private SusTopClickListener OnSusTopClick() {
         return new SusTopClickListener() {
             @Override
             public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
-                if (v != null&&v==card&&!isMove) {
+                if (v != null&&v==card&&!isMove&&clickAble) {
                     isMove=true;
                     final ImageView moveImageView = getView(card);
                     TextView newTextView = (TextView) card.findViewById(android.R.id.text1);
@@ -254,10 +306,10 @@ public class DraggableGridFragment extends Fragment {
     }
 
 
-    private SusClickListener OnSusClick() {
+    private SusBottomClickListener OnSusClick() {
 
 
-        return new SusClickListener() {
+        return new SusBottomClickListener() {
             @Override
             public void onClick(final View v, final View card, final ChannelBean holgaItem, final int pos) {
                 if (v != null&&v==card&&!isMove){

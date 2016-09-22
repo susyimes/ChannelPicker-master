@@ -11,18 +11,19 @@
         <padding android:bottom="4dp" android:left="4dp" android:right="4dp" android:top="4dp" />
         <stroke
             android:dashGap="0dp"
-            android:width="1dp"
+            android:width="2px"
             android:color="#fd3535" />
     </shape>
 </item>
 <item android:state_pressed="true">
 <shape android:shape="rectangle">
-    <solid android:color="#fd0000" />
-    <corners android:radius="3dip" />
+    <solid android:color="#22000000"></solid>
+    <corners android:radius="100dip" />
+    <padding android:bottom="4dp" android:left="4dp" android:right="4dp" android:top="4dp" />
     <stroke
         android:dashGap="0dp"
-        android:width="1px"
-        android:color="#828282" />
+        android:width="2px"
+        android:color="#fd3535" />
 </shape>
 </item>
     </selector>

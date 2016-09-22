@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -38,6 +39,8 @@ class DraggableGridAdapter
     private static final String TAG = "MyDraggableItemAdapter";
     private List<ChannelBean> sampledata;
     private SusTopClickListener susClickListener;
+    private SusTopLongClickListener  susLongClickListener;
+    private List<String> setting;
     // NOTE: Make accessible with short name
     private interface Draggable extends DraggableItemConstants {
     }
@@ -47,6 +50,7 @@ class DraggableGridAdapter
     public static class MyViewHolder extends AbstractDraggableItemViewHolder {
         public FrameLayout mContainer;
         public View mDragHandle;
+        private ImageView imagedel;
 
         public TextView mTextView;
 
@@ -55,15 +59,21 @@ class DraggableGridAdapter
             mContainer = (FrameLayout) v.findViewById(R.id.container);
             mDragHandle = v.findViewById(R.id.drag_handle);
             mTextView = (TextView) v.findViewById(android.R.id.text1);
+            imagedel= (ImageView) v.findViewById(R.id.iv_del);
         }
     }
 
     public  void SusTopClickListener(SusTopClickListener susClickListener) {
         this.susClickListener = susClickListener;
     }
-    public DraggableGridAdapter(List<ChannelBean> listsampledata) {
+    public  void SusTopLongClickListener(SusTopLongClickListener susLongClickListener) {
+        this.susLongClickListener = susLongClickListener;
+    }
+
+    public DraggableGridAdapter(List<ChannelBean> listsampledata,List<String> setting) {
 
         this.sampledata= listsampledata;
+        this.setting=setting;
 
         // DraggableItemAdapter requires stable ID, and also
         // have to implement the getItemId() method appropriately.
@@ -95,6 +105,11 @@ class DraggableGridAdapter
 
 
         // set text
+        if (setting.size()==0||position==0){
+            holder.imagedel.setVisibility(View.INVISIBLE);
+        }else {
+            holder.imagedel.setVisibility(View.VISIBLE);
+        }
         holder.mTextView.setText(sampledata.get(position).getChname());
         ChannelUserBean channelUserBean=new ChannelUserBean();
         channelUserBean.setChusername(sampledata.get(position).getChname());
@@ -104,6 +119,21 @@ class DraggableGridAdapter
                 susClickListener.onClick(view,holder.mContainer,channelUserBean,position);
             }
         });
+        holder.mContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                susLongClickListener.onClick(view,holder.mContainer,channelUserBean,position);
+                return false;
+            }
+        });
+     /*  holder.mTextView.setOnLongClickListener(new View.OnLongClickListener() {
+           @Override
+           public boolean onLongClick(View view) {
+               susLongClickListener.onClick(view,holder.mTextView,channelUserBean,position);
+               return false;
+           }
+       });*/
+
 
         // set background resource (target view ID: container)
      /*   final int dragState = holder.getDragStateFlags();

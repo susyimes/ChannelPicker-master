@@ -16,7 +16,7 @@ import java.util.List;
 public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
     private Context context;
     private List<ChannelUserBean> listuserBean;
-    private SusClickListener susClickListener;
+    private SusBottomClickListener susClickListener;
 
     public BAdapter(Context context,List<ChannelUserBean> listuserBean) {
         this.context=context;
@@ -33,7 +33,7 @@ public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
 
 
     }
-    public void SusClickListener(SusClickListener susClickListener) {
+    public void SusClickListener(SusBottomClickListener susClickListener) {
         this.susClickListener = susClickListener;
     }
     @Override

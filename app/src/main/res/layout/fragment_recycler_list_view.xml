@@ -18,8 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#e5e5e5"
-                android:paddingLeft="14dp"
-                android:paddingRight="9dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="14dp"
                 android:scrollbars="none"
 
     >
@@ -37,9 +37,10 @@
 
         />
     <TextView
+        android:id="@+id/tv_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done"
+        android:text="Edit"
         android:layout_alignParentRight="true"
         android:layout_marginTop="82dp"
         android:textColor="#fd3535"
@@ -61,6 +62,7 @@
         android:textColor="#333333"
         />
         <TextView
+            android:id="@+id/tv_notice"
             android:layout_toRightOf="@+id/tv1"
             android:layout_marginLeft="10dp"
             android:layout_alignBottom="@+id/tv1"
@@ -74,6 +76,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
        />
     <TextView
         android:layout_marginTop="30dp"
@@ -93,6 +96,7 @@
         android:id="@+id/recycler_viewb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
        />
     </RelativeLayout>
 
