@@ -14,34 +14,86 @@
        See the License for the specific language governing permissions and
        limitations under the License.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#e5e5e5"
+                android:paddingLeft="14dp"
+                android:paddingRight="9dp"
+                android:scrollbars="none"
 
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/closechannel"
+        android:layout_marginTop="30dp"
+
+
+        android:layout_alignParentRight="true"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="82dp"
+        android:textColor="#fd3535"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:background="@drawable/channel_buttonshape"
+        />
+    <RelativeLayout
+        android:layout_marginTop="81dp"
+        android:id="@+id/rl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My channels"
+        android:textSize="17sp"
+        android:textColor="#333333"
+        />
+        <TextView
+            android:layout_toRightOf="@+id/tv1"
+            android:layout_marginLeft="10dp"
+            android:layout_alignBottom="@+id/tv1"
+            android:text="Long press to edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/rl1"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        />
-    <View
+    <TextView
+        android:layout_marginTop="30dp"
         android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/recycler_view"
-        android:background="#000000"
+        android:textSize="17sp"
+        android:textColor="#333333"
+        android:text="Recommended"
+
         />
+
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="24dp"
         android:layout_below="@+id/line"
         android:id="@+id/recycler_viewb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        />
-    <Button
-        android:id="@+id/btn_show"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        />
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

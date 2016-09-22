@@ -47,6 +47,7 @@ class DraggableGridAdapter
     public static class MyViewHolder extends AbstractDraggableItemViewHolder {
         public FrameLayout mContainer;
         public View mDragHandle;
+
         public TextView mTextView;
 
         public MyViewHolder(View v) {
@@ -100,7 +101,7 @@ class DraggableGridAdapter
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                susClickListener.onClick(view,holder.mTextView,channelUserBean,position);
+                susClickListener.onClick(view,holder.mContainer,channelUserBean,position);
             }
         });
 

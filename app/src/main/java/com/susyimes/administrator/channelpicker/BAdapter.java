@@ -40,12 +40,15 @@ public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
     public void onBindViewHolder(final BViewHolder holder, final int position) {
         holder.mTextView.setText(listuserBean.get(position).getChusername());
 
-        holder.mTextView.setOnClickListener(new View.OnClickListener() {
+        holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ChannelBean channelBean=new ChannelBean();
+
+                if (listuserBean.size()>position){
                 channelBean.setChname(listuserBean.get(position).getChusername());
-                susClickListener.onClick(view,holder.mTextView,channelBean,position);
+                susClickListener.onClick(view,holder.mContainer,channelBean,position);}
             }
         });
 

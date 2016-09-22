@@ -21,16 +21,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:layout_margin="4dp"
-    android:background="#ff6600"
+
+
 
    >
 
     <FrameLayout
+        android:layout_margin="4dp"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:background="@mipmap/backg"
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UselessParent">
 

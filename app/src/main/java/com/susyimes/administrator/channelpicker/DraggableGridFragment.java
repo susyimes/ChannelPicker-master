@@ -57,12 +57,13 @@ public class DraggableGridFragment extends Fragment {
     private List<ChannelUserBean> list2;
     private List<ChannelBean> listopen;
     private BAdapter badapter;
-    private Button button;
+
     boolean isMove = false;
 
     public DraggableGridFragment() {
         super();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class DraggableGridFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        button= (Button) view.findViewById(R.id.btn_show);
+
 
         list=new ArrayList<>();
         list2=new ArrayList<>();
@@ -104,8 +105,8 @@ public class DraggableGridFragment extends Fragment {
         mRecyclerViewB = (RecyclerView) getView().findViewById(R.id.recycler_viewb);
 
 
-         mLayoutManager = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
-         mLayoutManagerb = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
+         mLayoutManager = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
+         mLayoutManagerb = new GridLayoutManager(getContext(), 3, GridLayoutManager.VERTICAL, false);
 
 
         // drag & drop manager
@@ -140,7 +141,7 @@ public class DraggableGridFragment extends Fragment {
         mAdapter = myItemAdapter;
 
         mWrappedAdapter = mRecyclerViewDragDropManager.createWrappedAdapter(myItemAdapter);      // wrap for dragging
-myItemAdapter.SusTopClickListener(OnSusTopClick());
+        myItemAdapter.SusTopClickListener(OnSusTopClick());
 
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
        // mWrappedAdapter.notifyDataSetChanged();
@@ -168,15 +169,6 @@ myItemAdapter.SusTopClickListener(OnSusTopClick());
         //define bottom recyclerview
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              // SharedPrefsStrListUtil.putStrListValue();
-
-
-
-            }
-        });
 
     }
 
@@ -213,7 +205,8 @@ myItemAdapter.SusTopClickListener(OnSusTopClick());
         return new SusTopClickListener() {
             @Override
             public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
-                if (v != null) {
+                if (v != null&&v==card&&!isMove) {
+                    isMove=true;
                     final ImageView moveImageView = getView(card);
                     TextView newTextView = (TextView) card.findViewById(android.R.id.text1);
                     final int[] startLocation = new int[2];
@@ -267,8 +260,9 @@ myItemAdapter.SusTopClickListener(OnSusTopClick());
         return new SusClickListener() {
             @Override
             public void onClick(final View v, final View card, final ChannelBean holgaItem, final int pos) {
-                if (v==card){
+                if (v != null&&v==card&&!isMove){
                     if (v != null) {
+                        isMove=true;
                         final ImageView moveImageView = getView(card);
                         TextView newTextView = (TextView) card.findViewById(android.R.id.text1);
                         final int[] startLocation = new int[2];

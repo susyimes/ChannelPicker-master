@@ -15,22 +15,25 @@
        limitations under the License.
 -->
 <!-- NOTE: should use FrameLayout or RelativeLayout for parent of the "@id/container" view (for Android 2.3 compatibility) -->
-<FrameLayout
+<RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:layout_margin="4dp"
-    android:background="#0066ff"
+
+
 
    >
 
+
     <FrameLayout
+        android:layout_margin="4dp"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:background="@mipmap/backg"
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UselessParent">
 
@@ -43,5 +46,11 @@
             tools:ignore="RtlHardcoded"/>
 
     </FrameLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/circledelete"
 
-</FrameLayout>
+        />
+</RelativeLayout>
