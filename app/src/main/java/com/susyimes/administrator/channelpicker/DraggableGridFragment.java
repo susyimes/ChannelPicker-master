@@ -36,6 +36,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
@@ -257,6 +258,9 @@ public class DraggableGridFragment extends Fragment {
         return new SusTopClickListener() {
             @Override
             public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
+                if (!clickAble){
+                    Toast.makeText(getContext(),"turn to"+holgaItem.getChusername()+" channel",Toast.LENGTH_SHORT).show();
+                }
                 if (v != null&&v==card&&!isMove&&clickAble) {
                     isMove=true;
                     final ImageView moveImageView = getView(card);
