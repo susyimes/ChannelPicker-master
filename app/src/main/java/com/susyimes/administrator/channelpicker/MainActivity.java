@@ -21,8 +21,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    /*public AbstractDataProvider getDataProvider() {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
-        return ((ExampleDataProviderFragment) fragment).getDataProvider();
-    }*/
+
 }

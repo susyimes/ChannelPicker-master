@@ -45,7 +45,7 @@ class DraggableGridAdapter
     private interface Draggable extends DraggableItemConstants {
     }
 
-    private AbstractDataProvider mProvider;
+
 
     public static class MyViewHolder extends AbstractDraggableItemViewHolder {
         public FrameLayout mContainer;
@@ -101,7 +101,7 @@ class DraggableGridAdapter
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //final AbstractDataProvider.Data item = mProvider.getItem(position);
+
 
 
         // set text
@@ -110,9 +110,9 @@ class DraggableGridAdapter
         }else {
             holder.imagedel.setVisibility(View.VISIBLE);
         }
-        holder.mTextView.setText(sampledata.get(position).getChname());
+        holder.mTextView.setText(sampledata.get(position).getCname());
         ChannelUserBean channelUserBean=new ChannelUserBean();
-        channelUserBean.setChusername(sampledata.get(position).getChname());
+        channelUserBean.setCname(sampledata.get(position).getCname());
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

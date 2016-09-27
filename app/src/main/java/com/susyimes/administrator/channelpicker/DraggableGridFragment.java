@@ -100,13 +100,14 @@ public class DraggableGridFragment extends Fragment {
 
         for (int i=0;i<4;i++){
             ChannelUserBean channelBean=new ChannelUserBean();
-            channelBean.setChusername("xxx"+i);
+            channelBean.setCname("xxx"+i);
             list2.add(channelBean);
+
         }
         if (list.size()==0){
         for (int i=0;i<5;i++){
             ChannelBean channelBean=new ChannelBean();
-            channelBean.setChname("fun"+i);
+            channelBean.setCname("fun"+i);
             list.add(channelBean);
         }}
         listopen=list;
@@ -226,8 +227,9 @@ public class DraggableGridFragment extends Fragment {
        // MyApplication.sDb.delete(listopen);
         for (int i=0;i<list.size();i++){
             ChannelBean channelBean=new ChannelBean();
-            channelBean.setChname(list.get(i).getChname());
+            channelBean.setCname(list.get(i).getCname());
             MyApplication.sDb.save(channelBean);
+
 
             //MyApplication.sDb.update(list.get(i));
         }
@@ -238,6 +240,7 @@ public class DraggableGridFragment extends Fragment {
         Log.i("listbean", MyApplication.sDb.query(ChannelBean.class).get(0).toString());
 
         super.onDestroy();
+
     }
     private SusTopLongClickListener OnSusLongClick() {
         return new SusTopLongClickListener() {
@@ -259,8 +262,8 @@ public class DraggableGridFragment extends Fragment {
             @Override
             public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
                 if (!clickAble){
-                    Toast.makeText(getContext(),"turn to"+holgaItem.getChusername()+" channel",Toast.LENGTH_SHORT).show();
-                }
+                    Toast.makeText(getContext(),"turn to"+holgaItem.getCname()+" channel",Toast.LENGTH_SHORT).show();
+                }else
                 if (v != null&&v==card&&!isMove&&clickAble) {
                     isMove=true;
                     final ImageView moveImageView = getView(card);
@@ -359,14 +362,7 @@ public class DraggableGridFragment extends Fragment {
     }
 
 
-    private void installBottomView() {
 
-
-
-
-
-
-    }
 
     @Override
     public void onPause() {
@@ -401,10 +397,7 @@ public class DraggableGridFragment extends Fragment {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
-   /* public AbstractDataProvider getDataProvider() {
-       // return ( (MainActivity.this)getActivity()).getDataProvider();
-        return null;
-    }*/
+
    private ViewGroup getMoveViewGroup() {
        ViewGroup moveViewGroup = (ViewGroup) getActivity().getWindow().getDecorView();
        LinearLayout moveLinearLayout = new LinearLayout(getContext());

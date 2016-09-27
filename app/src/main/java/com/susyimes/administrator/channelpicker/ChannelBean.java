@@ -7,20 +7,21 @@ import com.litesuits.orm.db.annotation.Table;
  * Created by Susyimes on 2016/8/24 0024.
  */
 @Table("channelbean") public class ChannelBean extends Soul {
-    @Column("channelname") public String chname;
+    @Column("cname") public String cname;
 
-    public String getChname() {
-        return chname;
+
+    public String getCname() {
+        return cname;
     }
 
-    public void setChname(String chname) {
-        this.chname = chname;
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
     @Override
     public String toString() {
         return "ChannelBean{" +
-                "chname='" + chname + '\'' +
+                "cname='" + cname + '\'' +
                 '}';
     }
 }

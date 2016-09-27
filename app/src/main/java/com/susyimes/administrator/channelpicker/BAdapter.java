@@ -38,7 +38,7 @@ public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
     }
     @Override
     public void onBindViewHolder(final BViewHolder holder, final int position) {
-        holder.mTextView.setText(listuserBean.get(position).getChusername());
+        holder.mTextView.setText(listuserBean.get(position).getCname());
 
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +47,7 @@ public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
                 ChannelBean channelBean=new ChannelBean();
 
                 if (listuserBean.size()>position){
-                channelBean.setChname(listuserBean.get(position).getChusername());
+                channelBean.setCname(listuserBean.get(position).getCname());
                 susClickListener.onClick(view,holder.mContainer,channelBean,position);}
             }
         });
