@@ -1,18 +1,4 @@
-/*
- *    Copyright (C) 2015 Haruki Hasegawa
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
+
 
 package com.susyimes.administrator.channelpicker;
 
@@ -45,6 +31,7 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropM
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DraggableGridFragment extends Fragment {
@@ -54,15 +41,18 @@ public class DraggableGridFragment extends Fragment {
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
     private List<ChannelBean> list;
-    private List<ChannelUserBean> list2;
+    private List<ChannelOtherBean> list2;
     private List<ChannelBean> listopen;
     private List<String> setting;
     private BAdapter badapter;
     private TextView tv_edit,tv_notice;
+    private ImageView close_btn;
     private Boolean clickAble=false;
 
 
     boolean isMove = false;
+    private List<String> listname;
+    private List<String> listcid;
 
     public DraggableGridFragment() {
         super();
@@ -79,6 +69,7 @@ public class DraggableGridFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         tv_edit= (TextView) view.findViewById(R.id.tv_edit);
         tv_notice= (TextView) view.findViewById(R.id.tv_notice);
+        close_btn= (ImageView) view.findViewById(R.id.close_btn);
 
 
 
@@ -89,8 +80,6 @@ public class DraggableGridFragment extends Fragment {
 
         if (MyApplication.sDb.query(ChannelBean.class).size()>0) {
             list.addAll(MyApplication.sDb.query(ChannelBean.class));
-            //MyApplication.sDb.deleteAll(ChannelBean.class);
-
         }
 
 
@@ -98,16 +87,31 @@ public class DraggableGridFragment extends Fragment {
         Log.i("listopen",list.toString());
         Log.i("listopen",MyApplication.sDb.query(ChannelBean.class).size()+"");
 
-        for (int i=0;i<4;i++){
-            ChannelUserBean channelBean=new ChannelUserBean();
-            channelBean.setCname("xxx"+i);
-            list2.add(channelBean);
+       // MyApplication.sDb.save(ChannelBean.class);
+
+
+
+        list2=MyApplication.sDb.query(ChannelOtherBean.class);
+        if (list2.size()==0) {
+
+            listname = Arrays.asList(Constant.cname);
+            listcid = Arrays.asList(Constant.cid);
+            for (int i = 0; i < listname.size(); i++) {
+                ChannelOtherBean channelOtherBean=new ChannelOtherBean();
+                channelOtherBean.setCname(listname.get(i));
+                channelOtherBean.setCid(listcid.get(i));
+                channelOtherBean.setIsChoose("0");
+                list2.add(channelOtherBean);
+            }
 
         }
+
         if (list.size()==0){
-        for (int i=0;i<5;i++){
+        for (int i=0;i<1;i++){
             ChannelBean channelBean=new ChannelBean();
-            channelBean.setCname("fun"+i);
+            channelBean.setCname("ForU");
+            channelBean.setCid("7");
+            channelBean.setIsChoose("1");
             list.add(channelBean);
         }}
         listopen=list;
@@ -183,6 +187,13 @@ public class DraggableGridFragment extends Fragment {
         //define bottom recyclerview
         initEditBtn();
 
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+
 
     }
 
@@ -194,7 +205,8 @@ public class DraggableGridFragment extends Fragment {
             public void onClick(View view) {
                 if (tv_edit.getText().equals("Done")){
                     tv_edit.setText("Edit");
-                    tv_notice.setVisibility(View.INVISIBLE);
+                    tv_notice.setText("Long press to edit");
+
                     clickAble=false;
                     if (setting.size()>0){
                         setting.remove(0);}
@@ -203,7 +215,8 @@ public class DraggableGridFragment extends Fragment {
                 }else {
                     tv_edit.setText("Done");
                     clickAble=true;
-                    tv_notice.setVisibility(View.VISIBLE);
+
+                    tv_notice.setText("Drag to reorder");
                     setting.add(0,"edit");
                     mAdapter.notifyDataSetChanged();
                 }
@@ -224,16 +237,27 @@ public class DraggableGridFragment extends Fragment {
         }*/
        // MyApplication.sDb.query(ChannelBean.class).removeAll(listopen);
         MyApplication.sDb.deleteAll(ChannelBean.class);
+        MyApplication.sDb.deleteAll(ChannelOtherBean.class);
        // MyApplication.sDb.delete(listopen);
         for (int i=0;i<list.size();i++){
             ChannelBean channelBean=new ChannelBean();
             channelBean.setCname(list.get(i).getCname());
+            channelBean.setCid(list.get(i).getCid());
+            channelBean.setCid(list.get(i).getIsChoose());
             MyApplication.sDb.save(channelBean);
+
 
 
             //MyApplication.sDb.update(list.get(i));
         }
         //MyApplication.sDb.save(list);
+        for (int i=0;i<list2.size();i++){
+            ChannelOtherBean channelOtherBean=new ChannelOtherBean();
+            channelOtherBean.setCname(list2.get(i).getCname());
+            channelOtherBean.setCid(list2.get(i).getCid());
+            channelOtherBean.setIsChoose(list2.get(i).getIsChoose());
+            MyApplication.sDb.save(channelOtherBean);
+        }
 
         Log.i("list",list.toString());
         if (MyApplication.sDb.query(ChannelBean.class).size()!=0)
@@ -245,12 +269,13 @@ public class DraggableGridFragment extends Fragment {
     private SusTopLongClickListener OnSusLongClick() {
         return new SusTopLongClickListener() {
             @Override
-            public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
+            public void onClick(View v, View card, ChannelOtherBean holgaItem, int pos) {
 
-                if (tv_edit.getText().equals("Edit")){
+
+                if (tv_edit.getText().equals("Edit")&&pos!=0){
                 tv_edit.setText("Done");
                 clickAble=true;
-                tv_notice.setVisibility(View.VISIBLE);
+                tv_notice.setText("Drag to reorder");
                 setting.add(0,"edit");
                 mAdapter.notifyDataSetChanged();}
             }
@@ -260,11 +285,11 @@ public class DraggableGridFragment extends Fragment {
     private SusTopClickListener OnSusTopClick() {
         return new SusTopClickListener() {
             @Override
-            public void onClick(View v, View card, ChannelUserBean holgaItem, int pos) {
+            public void onClick(View v, View card, ChannelOtherBean holgaItem, int pos) {
                 if (!clickAble){
                     Toast.makeText(getContext(),"turn to"+holgaItem.getCname()+" channel",Toast.LENGTH_SHORT).show();
                 }else
-                if (v != null&&v==card&&!isMove&&clickAble) {
+                if (v != null&&v==card&&!isMove&&clickAble&&pos!=0) {
                     isMove=true;
                     final ImageView moveImageView = getView(card);
                     TextView newTextView = (TextView) card.findViewById(android.R.id.text1);
@@ -407,7 +432,7 @@ public class DraggableGridFragment extends Fragment {
    }
 
 
-   private void MoveAnim(View moveView, int[] startLocation,int[] endLocation, final ChannelBean moveChannel,final ChannelUserBean moveBean,
+   private void MoveAnim(View moveView, int[] startLocation,int[] endLocation, final ChannelBean moveChannel,final ChannelOtherBean moveBean,
                          final int location) {
        int[] initLocation = new int[2];
        //获取传递过来的VIEW的坐标

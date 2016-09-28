@@ -8,5 +8,5 @@ import android.view.View;
  */
 public interface SusTopClickListener {
 
-    void onClick(View v, View card, ChannelUserBean holgaItem, int pos);
+    void onClick(View v, View card, ChannelOtherBean holgaItem, int pos);
 }

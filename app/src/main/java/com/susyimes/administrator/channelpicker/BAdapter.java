@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
     private Context context;
-    private List<ChannelUserBean> listuserBean;
+    private List<ChannelOtherBean> listuserBean;
     private SusBottomClickListener susClickListener;
 
-    public BAdapter(Context context,List<ChannelUserBean> listuserBean) {
+    public BAdapter(Context context,List<ChannelOtherBean> listuserBean) {
         this.context=context;
         this.listuserBean=listuserBean;
 
@@ -48,6 +48,8 @@ public class BAdapter extends RecyclerView.Adapter<BAdapter.BViewHolder>  {
 
                 if (listuserBean.size()>position){
                 channelBean.setCname(listuserBean.get(position).getCname());
+                channelBean.setCid(listuserBean.get(position).getCid());
+                channelBean.setIsChoose("1");
                 susClickListener.onClick(view,holder.mContainer,channelBean,position);}
             }
         });

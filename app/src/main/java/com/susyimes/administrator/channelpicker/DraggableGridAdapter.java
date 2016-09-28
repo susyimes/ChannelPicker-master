@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemAdapter;
@@ -111,28 +112,24 @@ class DraggableGridAdapter
             holder.imagedel.setVisibility(View.VISIBLE);
         }
         holder.mTextView.setText(sampledata.get(position).getCname());
-        ChannelUserBean channelUserBean=new ChannelUserBean();
-        channelUserBean.setCname(sampledata.get(position).getCname());
+        ChannelOtherBean channelOtherBean =new ChannelOtherBean();
+        channelOtherBean.setCname(sampledata.get(position).getCname());
+        channelOtherBean.setCid(sampledata.get(position).getCid());
+        channelOtherBean.setIsChoose("0");
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                susClickListener.onClick(view,holder.mContainer,channelUserBean,position);
+                susClickListener.onClick(view,holder.mContainer, channelOtherBean,position);
             }
         });
         holder.mContainer.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                susLongClickListener.onClick(view,holder.mContainer,channelUserBean,position);
+                susLongClickListener.onClick(view,holder.mContainer, channelOtherBean,position);
                 return false;
             }
         });
-     /*  holder.mTextView.setOnLongClickListener(new View.OnLongClickListener() {
-           @Override
-           public boolean onLongClick(View view) {
-               susLongClickListener.onClick(view,holder.mTextView,channelUserBean,position);
-               return false;
-           }
-       });*/
+
 
 
         // set background resource (target view ID: container)
@@ -169,6 +166,10 @@ class DraggableGridAdapter
         if (fromPosition == toPosition) {
             return;
         }
+        if (fromPosition==0||toPosition==0){
+            return;
+
+        }
         final ChannelBean item = sampledata.remove(fromPosition);
         //sampledata.moveItem(fromPosition, toPosition);
 
@@ -180,6 +181,9 @@ class DraggableGridAdapter
 
     @Override
     public boolean onCheckCanStartDrag(MyViewHolder holder, int position, int x, int y) {
+        if (position==0){
+            return false;
+        }
         return true;
     }
 
@@ -191,6 +195,9 @@ class DraggableGridAdapter
 
     @Override
     public boolean onCheckCanDrop(int draggingPosition, int dropPosition) {
+        if (dropPosition==0){
+            return false;
+        }
         return true;
     }
 }

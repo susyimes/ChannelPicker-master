@@ -6,7 +6,7 @@ import com.litesuits.orm.db.annotation.Table;
 /**
  * Created by Susyimes on 2016/8/24 0024.
  */
-@Table("channel") public class ChannelBean extends Soul {
+@Table("channelob") public class ChannelOtherBean extends Soul {
     @Column("cname") public String cname;
     @Column("cid") public String cid;
     @Column("isChoose") public String isChoose;
@@ -20,8 +20,9 @@ import com.litesuits.orm.db.annotation.Table;
     }
 
     @Override
+
     public String toString() {
-        return "ChannelBean{" +
+        return "ChannelOtherBean{" +
                 "cname='" + cname + '\'' +
                 ", cid='" + cid + '\'' +
                 ", isChoose='" + isChoose + '\'' +
